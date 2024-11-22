@@ -1,7 +1,12 @@
 {
+  // "files": [],
+  "references": [],
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["src/**/*"], // Includes all files in the 'src' folder
+  "exclude": ["node_modules", "dist"] // Excludes build outputs and dependencies
 }
