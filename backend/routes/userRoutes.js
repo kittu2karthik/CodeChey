@@ -19,6 +19,8 @@ router.patch(
 router.patch("/updateMe", authController.protect, userController.updateMe);
 router.delete("/deleteMe", authController.protect, userController.deleteMe);
 
+router.get("/top-leader", userController.getTopLeaders);
+
 router
   .route("/")
   .get(userController.getAllUsers)
