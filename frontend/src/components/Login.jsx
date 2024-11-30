@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import API_URI from "../config";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -12,25 +17,16 @@ function Login() {
     const loginData = { email, password };
 
     try {
-      // Make POST request to login API
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/login",
-        loginData,
-        {
-          withCredentials: true, // Allow cookies to be sent and received
-        },
-      );
+      const response = await axios.post(`${API_URI}/users/login`, loginData, {
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
-        setMessage("Login successful!");
-
-        // Perform post-login actions (e.g., redirecting)
-        console.log("Logged in successfully.");
+        navigate("/problems");
       } else {
         setMessage("Error: Login failed.");
       }
     } catch (error) {
-      // Handle errors from the API
       if (error.response) {
         setMessage(`Error: ${error.response.data.message || "Login failed"}`);
       } else if (error.request) {

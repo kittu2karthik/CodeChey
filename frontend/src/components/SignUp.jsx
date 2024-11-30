@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_URI from "../config";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -7,6 +9,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -16,14 +20,10 @@ function SignUp() {
     console.log(userData);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/signup",
-        userData,
-      );
+      const response = await axios.post(`${API_URI}/users/signup`, userData);
 
-      console.log(response);
       if (response.status === 201) {
-        setMessage("Signup successful!");
+        navigate("/login");
       } else {
         setMessage(`Error: Signup failed.`);
       }

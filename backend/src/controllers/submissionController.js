@@ -4,7 +4,7 @@ const executeCode = require("../utils/codeExecutor");
 const Problem = require("../models/problemModel");
 const Submission = require("../models/submissionModel");
 
-exports.submitCode = catchAsync(async (req, res, next) => {
+exports.runSubmission = catchAsync(async (req, res, next) => {
   const { problemId, code, language } = req.body;
 
   if (!problemId || !code || !language) {
