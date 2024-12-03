@@ -1,45 +1,42 @@
-import { useState, useEffect, useCallback } from "react";
-
+import { useEffect, useCallback } from "react";
 import CodeMirror from "@uiw/react-codemirror";
-
 import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
 import { python } from "@codemirror/lang-python";
-
 import { oneDark } from "@codemirror/theme-one-dark";
 
-function CodeEditor() {
-  const [language, setLanguage] = useState("javascript");
-  const [value, setValue] = useState("console.log('hello world!');");
-
+function CodeEditor({ language, onChangeLanguage, value, onChangeValue }) {
   useEffect(() => {
-    switch (language) {
-      case "javascript":
-        setValue('console.log("hello world");');
-        break;
-      case "python":
-        setValue('print("hello world")');
-        break;
-      case "cpp":
-        setValue(
-          '#include <iostream>\nusing namespace std;\n\nint main() {\n\tcout << "Hello World" << endl;\n\treturn 0;\n}',
-        );
-        break;
-      case "java":
-        setValue(
-          'import java.util.*;\n\npublic class HelloWorld {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello World");\n\t}\n}',
-        );
-        break;
-      default:
-        setValue('console.log("hello world");');
-    }
-  }, [language]);
+    const defaultCode = {
+      javascript: 'console.log("hello world");',
+      python: 'print("hello world")',
+      cpp: `#include <iostream>
+using namespace std;
 
-  const onChange = useCallback((val) => {
-    console.log("val:", val);
-    setValue(val);
-  }, []);
+int main() {
+\tcout << "Hello World" << endl;
+\treturn 0;
+}`,
+      java: `import java.util.*;
+
+public class HelloWorld {
+\tpublic static void main(String[] args) {
+\t\tSystem.out.println("Hello World");
+\t}
+}`,
+    };
+
+    onChangeValue(defaultCode[language]);
+  }, [language, onChangeValue]);
+
+  const onChange = useCallback(
+    (val) => {
+      console.log("CodeMirror value updated:", val);
+      onChangeValue(val);
+    },
+    [onChangeValue],
+  );
 
   const getLanguageExtension = (language) => {
     switch (language) {
@@ -60,8 +57,8 @@ function CodeEditor() {
     <div>
       <select
         value={language}
-        onChange={(e) => setLanguage(e.target.value)}
-        className="mb-4 p-2 text-black"
+        onChange={(e) => onChangeLanguage(e.target.value)}
+        className="mb-4 rounded border border-gray-300 p-2 text-black"
       >
         <option value="javascript">JavaScript</option>
         <option value="python">Python</option>
@@ -70,7 +67,7 @@ function CodeEditor() {
       </select>
       <CodeMirror
         value={value}
-        className="h-screen"
+        className="h-[50vh] rounded border border-gray-300"
         theme={oneDark}
         extensions={[getLanguageExtension(language)]}
         onChange={onChange}

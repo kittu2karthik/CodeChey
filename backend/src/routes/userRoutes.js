@@ -20,7 +20,7 @@ router.patch(
 router.patch("/updateMe", authController.protect, userController.updateMe);
 router.delete("/deleteMe", authController.protect, userController.deleteMe);
 
-router.post("/run", authController.protect, submissionController.runSubmission);
+router.post("/run", submissionController.compileCode);
 router.post("/submit", authController.protect);
 
 module.exports = router;

@@ -4,16 +4,18 @@ import axios from "axios";
 import API_URI from "../config";
 import ProblemStatement from "./ProblemStatement.jsx";
 import CodeEditor from "./CodeEditor.jsx";
-
 import TestCases from "./TestCases";
-
 import Split from "react-split";
 
 function ProblemDetailsPage() {
   const { id } = useParams(); // Get the problem ID from the URL
+  console.log(id);
   const [problem, setProblem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [language, setLanguage] = useState("javascript");
+  const [value, setValue] = useState("console.log('hello world!');");
 
   useEffect(() => {
     const fetchProblemDetails = async () => {
@@ -22,7 +24,8 @@ function ProblemDetailsPage() {
         setProblem(response.data.data.problem);
         setLoading(false);
       } catch (err) {
-        setError("Failed to fetch problem details." + err.message);
+        console.error("Error fetching problem details:", err); // Log for debugging
+        setError("Failed to fetch problem details. Please try again later.");
         setLoading(false);
       }
     };
@@ -31,7 +34,11 @@ function ProblemDetailsPage() {
   }, [id]);
 
   if (loading) {
-    return <div className="mt-10 text-center text-xl">Loading...</div>;
+    return (
+      <div className="mt-10 flex items-center justify-center text-xl">
+        Loading...
+      </div>
+    );
   }
 
   if (error) {
@@ -40,17 +47,22 @@ function ProblemDetailsPage() {
 
   return (
     <Split
-      sizes={[50, 50]}
+      sizes={[60, 40]} // Give more space to the problem statement pane
       minSize={100}
       gutterSize={10}
       className="flex h-screen"
     >
       {problem && <ProblemStatement problem={problem} />}
 
-      <div id="pane2" className="bg-red-500 p-4">
-        <Split sizes={[50, 50]} minSize={100} gutterSize={10}>
-          <CodeEditor />
-          <TestCases />
+      <div id="pane2" className="bg-red-400 p-4">
+        <Split gutterSize={10} sizes={[70, 30]}>
+          <CodeEditor
+            language={language}
+            onChangeLanguage={setLanguage}
+            value={value}
+            onChangeValue={setValue}
+          />
+          <TestCases id={id} value={value} language={language} />
         </Split>
       </div>
     </Split>
