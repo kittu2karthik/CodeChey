@@ -5,10 +5,6 @@ import CompileButton from "./CompileButton";
 function TestCases({ id, value, language }) {
   const [output, setOutput] = useState("");
 
-  // function onOutput(data) {
-  //   setOutput(data);
-  // }
-
   return (
     <>
       {output && <p>{output}</p>}
