@@ -2,9 +2,8 @@ import axios from "axios";
 import API_URI from "../config";
 
 function RunButton({ id, value, language, onOutput }) {
-  const compileCode = async () => {
+  const runCode = async () => {
     try {
-      // API call to run the code
       const response = await axios.post(`${API_URI}/users/run`, {
         code: value,
         problemId: id,
@@ -27,7 +26,7 @@ function RunButton({ id, value, language, onOutput }) {
 
   return (
     <button
-      onClick={compileCode}
+      onClick={runCode}
       className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
     >
       Run

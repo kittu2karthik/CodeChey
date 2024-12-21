@@ -1,7 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
-const submissionController = require("../controllers/submissionController");
+const compilerController = require("../controllers/compilerController");
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ router.patch(
 router.patch("/updateMe", authController.protect, userController.updateMe);
 router.delete("/deleteMe", authController.protect, userController.deleteMe);
 
-router.post("/run", submissionController.compileCode);
-router.post("/submit", authController.protect);
+router.post("/run", compilerController.runCode);
+router.post("/testcase", compilerController.testcase);
 
 module.exports = router;

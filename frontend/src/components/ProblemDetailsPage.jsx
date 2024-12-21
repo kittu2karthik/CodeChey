@@ -16,6 +16,7 @@ function ProblemDetailsPage() {
 
   const [language, setLanguage] = useState("javascript");
   const [value, setValue] = useState("console.log('hello world!');");
+  const [testcase, setTestCase] = useState("");
 
   useEffect(() => {
     const fetchProblemDetails = async () => {
@@ -62,7 +63,13 @@ function ProblemDetailsPage() {
             value={value}
             onChangeValue={setValue}
           />
-          <TestCases id={id} value={value} language={language} />
+          <TestCases
+            id={id}
+            value={value}
+            language={language}
+            testcase={testcase}
+            onChangeTestCase={setTestCase}
+          />
         </Split>
       </div>
     </Split>
