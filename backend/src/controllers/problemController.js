@@ -4,19 +4,21 @@ const AppError = require("./../utils/appError");
 const APIFeatures = require("./../utils/apiFeatures");
 
 exports.getAllProblems = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Problem.find(), req.query)
+  const features = new APIFeatures(
+    Problem.find().populate("testCases"),
+    req.query
+  )
     .filter()
     .sort()
     .limitFields()
     .paginate();
-  const totalProblems = await features.query;
+  const problems = await features.query;
 
   res.status(200).json({
     status: "success",
-    results: totalProblems.length,
-    totalResults: totalProblems,
+    results: problems.length,
     data: {
-      totalProblems,
+      problems,
     },
   });
 });

@@ -3,7 +3,7 @@ import RunButton from "./RunButton";
 import TestCaseButton from "./TextCaseButton";
 import Input from "./Input";
 
-function TestCases({ id, value, language, testcase, onChangeTestCase }) {
+function TestCases({ id, value, language, input, onChangeInput }) {
   const [output, setOutput] = useState("");
 
   return (
@@ -14,15 +14,16 @@ function TestCases({ id, value, language, testcase, onChangeTestCase }) {
         onOutput={setOutput}
         value={value}
         language={language}
+        input={input}
       />
       <TestCaseButton
         id={id}
         onOutput={setOutput}
         value={value}
         language={language}
-        testcase={testcase}
+        input={input}
       />
-      <Input testcase={testcase} onChangeTestCase={onChangeTestCase} />
+      <Input input={input} onChangeInput={onChangeInput} />
     </>
   );
 }

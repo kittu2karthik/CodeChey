@@ -4,26 +4,23 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(problemController.getAllProblems)
-  .post(
-    authController.protect,
-    authController.restrictTo("admin"),
-    problemController.createProblem
-  );
+router.route("/").get(problemController.getAllProblems).post(
+  // authController.protect,
+  // authController.restrictTo("admin"),
+  problemController.createProblem
+);
 
 router
   .route("/:id")
   .get(problemController.getProblem)
   .patch(
-    authController.protect,
-    authController.restrictTo("admin"),
+    // authController.protect,
+    // authController.restrictTo("admin"),
     problemController.updateProblem
   )
   .delete(
-    authController.protect,
-    authController.restrictTo("admin"),
+    // authController.protect,
+    // authController.restrictTo("admin"),
     problemController.deleteProblem
   );
 

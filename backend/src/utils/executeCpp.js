@@ -8,35 +8,42 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = (filepath) => {
-  console.log("---------Starting execute-1 File---------------");
-
-  console.log("outputPath", outputPath);
-
-  const jobId = path.basename(filepath).split(".")[0];
-  console.log("jobId", jobId);
-  const outPath = path.join(outputPath, `${jobId}.out`);
-  console.log("outPath", outPath);
-
-  console.log(
-    "command",
-    `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out`
-  );
-
+const executeCpp = (filepath, inputFilePath, timeLimit = 5000) => {
   return new Promise((resolve, reject) => {
-    exec(
-      `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out`,
-      (error, stdout, stderr) => {
-        if (error) {
-          reject({ error, stderr });
+    if (!fs.existsSync(filepath)) {
+      return reject(new Error(`File not found: ${filepath}`));
+    }
+
+    if (inputFilePath && !fs.existsSync(inputFilePath)) {
+      return reject(new Error(`Input file not found: ${inputFilePath}`));
+    }
+
+    const jobId = path.basename(filepath).split(".")[0];
+    const outPath = path.join(outputPath, `${jobId}.out`);
+
+    const command = inputFilePath
+      ? `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputFilePath}`
+      : `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out`;
+
+    exec(command, { timeout: timeLimit }, (error, stdout, stderr) => {
+      if (error) {
+        if (error.killed || error.signal === "SIGTERM") {
+          return reject(
+            new Error(
+              "Time Limit Exceeded: The script took too long to execute."
+            )
+          );
         }
-        if (stderr) {
-          reject(stderr);
-        }
-        resolve(stdout);
-        console.log("---------Ending execute File---------------");
+
+        console.error("Execution Error:", error.message);
+        console.error("Standard Error Output:", stderr);
+        return reject(
+          new Error(stderr || error.message || "Error executing C++ code.")
+        );
       }
-    );
+
+      resolve(stdout.trim());
+    });
   });
 };
 

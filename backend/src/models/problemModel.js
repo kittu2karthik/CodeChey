@@ -63,20 +63,9 @@ const problemSchema = new mongoose.Schema({
       message: "Constraints must be an array of strings",
     },
   },
-  testCases: {
-    type: [
-      {
-        input: { type: String, required: true },
-        expectedOutput: { type: String, required: true },
-        hidden: { type: Boolean, default: false },
-      },
-    ],
-    default: [],
-    validate: {
-      validator: (v) => Array.isArray(v),
-      message:
-        "Test cases must be an array of objects with input and expectedOutput",
-    },
+  testCases: [{ type: mongoose.Schema.Types.ObjectId, ref: "TestCase" }],
+  timeLimit: {
+    type: Number,
   },
   createdAt: {
     type: Date,

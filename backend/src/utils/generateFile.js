@@ -19,11 +19,22 @@ const generateFile = async (format, content) => {
     fileName = `${classNameMatch[1]}.java`;
   } else {
     const jobID = uuid();
-    fileName = `${jobID}.${format === "javascript" ? "js" : format === "python" ? "py" : format}`;
+
+    const extensions = {
+      javascript: "js",
+      python: "py",
+      cpp: "cpp",
+    };
+
+    const extension = extensions[format] || null;
+
+    fileName = `${jobID}.${extension}`;
   }
 
   const filePath = path.join(dirCodes, fileName);
   fs.writeFileSync(filePath, content);
+
+  console.log(filePath);
   return filePath;
 };
 

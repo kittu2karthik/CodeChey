@@ -11,19 +11,20 @@ function TestCaseButton({ id, value, language, onOutput, testcase }) {
     setErrorMessage(""); // Clear any previous error message
 
     try {
-      const response = await axios.post(`${API_URI}/users/testcase`, {
+      const response = await axios.post(`${API_URI}/users/submitCode`, {
         code: value,
         problemId: id,
         language: language,
         testcase: testcase,
+        userId: "6748babd85bc7574f2cecf32",
       });
 
       console.log("Compilation result:", response.data);
 
-      if (response.data.output) {
-        onOutput(response.data.output);
-      } else {
-        onOutput("No output received.");
+      console.log(response.data.data.submission.verdict);
+
+      if (response.status === "success") {
+        onOutput(response.data.data.submission.verdict);
       }
     } catch (error) {
       console.error("Error during code execution:", error);
@@ -39,14 +40,12 @@ function TestCaseButton({ id, value, language, onOutput, testcase }) {
       <button
         onClick={testCase}
         className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
-        disabled={isLoading} // Disable the button while loading
+        disabled={isLoading}
       >
-        {isLoading ? "Running..." : "TestCase"}
+        {isLoading ? "Running..." : "Submit"}
       </button>
 
-      {errorMessage && (
-        <p className="mt-2 text-red-500">{errorMessage}</p> // Show error message if any
-      )}
+      {errorMessage && <p className="mt-2 text-red-500">{errorMessage}</p>}
     </div>
   );
 }

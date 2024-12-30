@@ -13,19 +13,19 @@ const submissionSchema = new mongoose.Schema({
   },
   code: {
     type: String,
-    required: true,
+    required: [true, "Code is required"],
   },
   language: {
     type: String,
-    enum: ["javascript", "python", "java", "cpp"], // Extend with supported languages
-    required: true,
+    enum: ["javascript", "python", "java", "cpp"],
+    required: [true, "Programming language is required"],
   },
   results: [
     {
-      input: String,
-      expectedOutput: String,
-      output: String,
-      isPassed: Boolean,
+      input: { type: String },
+      expectedOutput: { type: String },
+      output: { type: String },
+      isPassed: { type: Boolean },
     },
   ],
   passedCount: {
@@ -35,6 +35,9 @@ const submissionSchema = new mongoose.Schema({
   accuracy: {
     type: Number,
     default: 0,
+  },
+  verdict: {
+    type: String,
   },
   createdAt: {
     type: Date,

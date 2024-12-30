@@ -14,7 +14,8 @@ function ProblemsPage() {
     const fetchProblems = async () => {
       try {
         const response = await axios.get(`${API_URI}/problems`);
-        setProblems(response.data.totalResults);
+        console.log(response);
+        setProblems(response.data.data.problems);
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch problems." + err.message);
@@ -56,7 +57,7 @@ function ProblemsPage() {
             </tr>
           </thead>
           <tbody>
-            {problems.map((problem) => (
+            {problems?.map((problem) => (
               <Problem key={problem._id} problem={problem} />
             ))}
           </tbody>

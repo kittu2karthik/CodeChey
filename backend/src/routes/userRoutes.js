@@ -21,6 +21,6 @@ router.patch("/updateMe", authController.protect, userController.updateMe);
 router.delete("/deleteMe", authController.protect, userController.deleteMe);
 
 router.post("/run", compilerController.runCode);
-router.post("/testcase", compilerController.testcase);
+router.post("/submitCode", compilerController.submitCode);
 
 module.exports = router;

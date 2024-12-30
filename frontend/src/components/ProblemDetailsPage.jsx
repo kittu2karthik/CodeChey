@@ -16,7 +16,7 @@ function ProblemDetailsPage() {
 
   const [language, setLanguage] = useState("javascript");
   const [value, setValue] = useState("console.log('hello world!');");
-  const [testcase, setTestCase] = useState("");
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     const fetchProblemDetails = async () => {
@@ -25,7 +25,7 @@ function ProblemDetailsPage() {
         setProblem(response.data.data.problem);
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching problem details:", err); // Log for debugging
+        console.error("Error fetching problem details:", err);
         setError("Failed to fetch problem details. Please try again later.");
         setLoading(false);
       }
@@ -48,7 +48,7 @@ function ProblemDetailsPage() {
 
   return (
     <Split
-      sizes={[60, 40]} // Give more space to the problem statement pane
+      sizes={[60, 40]}
       minSize={100}
       gutterSize={10}
       className="flex h-screen"
@@ -67,8 +67,8 @@ function ProblemDetailsPage() {
             id={id}
             value={value}
             language={language}
-            testcase={testcase}
-            onChangeTestCase={setTestCase}
+            input={input}
+            onChangeInput={setInput}
           />
         </Split>
       </div>

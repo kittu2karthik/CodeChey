@@ -1,39 +1,34 @@
 const { exec } = require("child_process");
+const fs = require("fs");
 const path = require("path");
 
-const executeJava = (filePath) => {
-  console.log("---------Starting execute File---------------");
-
-  const fileName = path.basename(filePath, ".java"); // Get the class name (without .java extension)
-  const dir = path.dirname(filePath); // Get the directory of the Java file
-
-  console.log("filePath:", filePath);
-  console.log("fileName:", fileName);
-  console.log("dir:", dir);
-
+const executeJava = (filePath, inputFilePath, timeLimit) => {
   return new Promise((resolve, reject) => {
-    // Command to compile and execute Java code
-    const command = `javac ${filePath} && java -cp ${dir} ${fileName}`;
-    console.log("Command:", command);
+    if (!fs.existsSync(filePath)) {
+      return reject(new Error(`File not found: ${filePath}`));
+    }
 
-    exec(command, (error, stdout, stderr) => {
+    if (inputFilePath && !fs.existsSync(inputFilePath)) {
+      return reject(new Error(`Input file not found: ${inputFilePath}`));
+    }
+
+    const fileName = path.basename(filePath, ".java");
+    const dir = path.dirname(filePath);
+
+    const command = `${inputFilePath ? `javac ${filePath} && java -cp ${dir} ${fileName} < ${inputFilePath}` : `javac ${filePath} && java -cp ${dir} ${fileName} `};`;
+    exec(command, { timeout: timeLimit }, (error, stdout, stderr) => {
       if (error) {
-        console.error(
-          "Compilation or Execution Error:",
-          stderr || error.message
-        );
-        return reject(
-          stderr || error.message || "Error during Java code execution"
-        );
+        if (error.killed || error.signal === "SIGTERM") {
+          return reject(
+            new Error(
+              `Time Limit Exceeded: The script took too long to execute.`
+            )
+          );
+        }
+        return reject(stderr || error.message || "Error executing Java code.");
       }
 
-      if (stderr) {
-        console.error("Runtime Error:", stderr);
-        return reject(stderr);
-      }
-
-      console.log("---------Ending execute File---------------");
-      resolve(stdout);
+      resolve(stdout.trim());
     });
   });
 };

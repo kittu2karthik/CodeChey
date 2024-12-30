@@ -7,7 +7,7 @@ const testcaseSchema = new mongoose.Schema({
   output: {
     type: String,
   },
-  problemid: {
+  problemId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Problem",
     required: true,
