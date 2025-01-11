@@ -54,6 +54,8 @@ exports.runCode = catchAsync(async (req, res, next) => {
 exports.submitCode = catchAsync(async (req, res, next) => {
   const { code, language, problemId, userId } = req.body;
 
+  console.log(req.body);
+
   if (!code || !language) {
     return next(
       new AppError("Please provide both the code and language.", 400)

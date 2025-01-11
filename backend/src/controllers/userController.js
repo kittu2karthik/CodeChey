@@ -3,6 +3,22 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const APIFeatures = require("./../utils/apiFeatures");
 
+exports.getUserById = catchAsync(async (req, res, next) => {
+  const id = req.params.id;
+  console.log("id from backend", id);
+  const user = await User.findById(id);
+  console.log(user);
+  if (!user) {
+    return next(new AppError("User not found with that ID", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
+  });
+});
+
 exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(

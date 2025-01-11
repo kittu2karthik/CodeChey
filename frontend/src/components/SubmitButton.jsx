@@ -2,36 +2,43 @@ import axios from "axios";
 import API_URI from "../config";
 import { useState } from "react";
 
-function TestCaseButton({ id, value, language, onOutput, testcase }) {
+function SubmitButton({ id, value, language, onOutput, testcase }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const testCase = async () => {
     setIsLoading(true);
-    setErrorMessage(""); // Clear any previous error message
+    setErrorMessage("");
 
     try {
+      const userId = localStorage.getItem("userId");
+
+      if (!userId) {
+        setErrorMessage("User ID not found. Please log in again.");
+        return;
+      }
+
       const response = await axios.post(`${API_URI}/users/submitCode`, {
         code: value,
         problemId: id,
-        language: language,
-        testcase: testcase,
-        userId: "6748babd85bc7574f2cecf32",
+        language,
+        testcase,
+        userId,
       });
 
-      console.log("Compilation result:", response.data);
+      const verdict = response?.data?.data?.submission?.verdict;
 
-      console.log(response.data.data.submission.verdict);
-
-      if (response.status === "success") {
-        onOutput(response.data.data.submission.verdict);
+      if (verdict) {
+        onOutput(verdict);
+      } else {
+        setErrorMessage("Unexpected response structure.");
       }
     } catch (error) {
       console.error("Error during code execution:", error);
-      setErrorMessage("An error occurred while executing the test case.");
-      onOutput(""); // Clear output if error occurs
+
+      onOutput(error.response.data.stack);
     } finally {
-      setIsLoading(false); // Set loading state to false when done
+      setIsLoading(false);
     }
   };
 
@@ -39,7 +46,7 @@ function TestCaseButton({ id, value, language, onOutput, testcase }) {
     <div>
       <button
         onClick={testCase}
-        className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
+        className="no-scrollbar rounded bg-green-500 p-2 text-white hover:bg-green-600"
         disabled={isLoading}
       >
         {isLoading ? "Running..." : "Submit"}
@@ -50,4 +57,4 @@ function TestCaseButton({ id, value, language, onOutput, testcase }) {
   );
 }
 
-export default TestCaseButton;
+export default SubmitButton;

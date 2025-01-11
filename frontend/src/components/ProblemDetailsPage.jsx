@@ -8,7 +8,7 @@ import TestCases from "./TestCases";
 import Split from "react-split";
 
 function ProblemDetailsPage() {
-  const { id } = useParams(); // Get the problem ID from the URL
+  const { id } = useParams();
   console.log(id);
   const [problem, setProblem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -54,9 +54,14 @@ function ProblemDetailsPage() {
       className="flex h-screen"
     >
       {problem && <ProblemStatement problem={problem} />}
-
-      <div id="pane2" className="bg-red-400 p-4">
-        <Split gutterSize={10} sizes={[70, 30]}>
+      <div className="no-scrollbar overflow-scroll bg-gradient-to-tr from-zinc-900 to-slate-900">
+        <Split
+          sizes={[50, 50]}
+          minSize={100}
+          gutterSize={10}
+          direction="vertical"
+          className="no-scrollbar flex h-screen flex-col"
+        >
           <CodeEditor
             language={language}
             onChangeLanguage={setLanguage}

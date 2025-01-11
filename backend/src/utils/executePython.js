@@ -21,13 +21,20 @@ const executePython = (filePath, inputFilePath, timeLimit) => {
         if (error.killed || error.signal === "SIGTERM") {
           return reject(
             new Error(
-              "Time Limit Exceeded: The script took too long to execute."
+              "Execution failed: Time Limit Exceeded. The script took too long to execute."
             )
           );
         }
-        return reject(
-          stderr || error.message || "Error executing Python code."
-        );
+
+        // If a standard error is available, include it in the rejection
+        const errorMessage =
+          stderr || error.message || "Unknown execution error.";
+        console.error("Execution Error Details:", {
+          command,
+          error: error.message,
+          stderr,
+        });
+        return reject(new Error(`Execution failed: ${errorMessage}`));
       }
 
       resolve(stdout.trim());

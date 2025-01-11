@@ -2,70 +2,108 @@ function ProblemStatement({ problem }) {
   return (
     <div
       id="pane1"
-      className="scrollbar-thin scrollbar-thumb-white scrollbar-track-red-100 scrollbar-w-2 h-screen flex-1 overflow-y-scroll p-4"
+      className="no-scrollbar h-screen flex-1 overflow-y-scroll bg-gradient-to-tr from-zinc-900 to-slate-900 p-6 scrollbar-thin"
     >
-      <h1 className="mb-4 text-3xl font-bold">{problem.title}</h1>
-      <p className="mb-4 text-gray-600">{problem.description}</p>
-      <p className="mb-4">
-        <strong className="text-gray-800">Difficulty:</strong>{" "}
-        <span
-          className={`rounded-full px-3 py-1 text-white ${
-            problem.difficulty === "hard"
-              ? "bg-red-500"
-              : problem.difficulty === "medium"
-                ? "bg-yellow-500"
-                : "bg-green-500"
-          }`}
-        >
-          {problem.difficulty}
-        </span>
-      </p>
-      <p className="mb-4">
-        <strong className="text-gray-800">Topics:</strong>{" "}
-        {problem.topics.join(", ")}
-      </p>
-      <p className="mb-4">
-        <strong className="text-gray-800">Companies:</strong>{" "}
-        {problem.companies.join(", ")}
-      </p>
-      <div className="mb-4">
-        <strong className="text-gray-800">Hints:</strong>
-        <ul className="list-inside list-disc text-gray-600">
-          {problem.hints.map((hint, index) => (
-            <li key={index}>{hint}</li>
-          ))}
-        </ul>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-800">Examples:</strong>
-        <ul className="list-inside list-disc text-gray-600">
+      <div className="mx-auto max-w-4xl rounded-lg p-6 shadow-lg">
+        {/* Problem Title */}
+        <h1 className="mb-6 text-center text-4xl font-extrabold text-white">
+          {problem.title}
+        </h1>
+
+        {/* Problem Description */}
+        <p className="mb-6 text-center text-lg text-white">
+          {problem.description}
+        </p>
+
+        {/* Difficulty */}
+        <div className="mb-6 flex items-center justify-center">
+          <span
+            className={`inline-block rounded-full px-4 py-2 text-sm font-semibold uppercase ${
+              problem.difficulty === "hard"
+                ? "bg-red-600 text-white"
+                : problem.difficulty === "medium"
+                  ? "bg-yellow-500 text-black"
+                  : "bg-green-500 text-white"
+            }`}
+          >
+            Difficulty: {problem.difficulty}
+          </span>
+        </div>
+
+        {/* Topics */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-semibold text-white">Topics:</h3>
+          <div className="flex flex-wrap gap-2">
+            {problem.topics.map((topic, index) => (
+              <span
+                key={index}
+                className="inline-block rounded-full bg-gray-700 px-3 py-1 text-sm text-gray-300"
+              >
+                {topic}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Companies */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-semibold text-white">Companies:</h3>
+          <div className="flex flex-wrap gap-2">
+            {problem.companies.map((company, index) => (
+              <span
+                key={index}
+                className="inline-block rounded-full bg-blue-700 px-3 py-1 text-sm text-white"
+              >
+                {company}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Hints */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-semibold text-white">Hints:</h3>
+          <ul className="list-inside list-disc pl-4 text-gray-300">
+            {problem.hints.map((hint, index) => (
+              <li key={index}>{hint}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Examples */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-semibold text-white">Examples:</h3>
           {problem.examples.map((example) => (
-            <li key={example._id}>
-              <strong>Input:</strong> {example.input} <br />
-              <strong>Output:</strong> {example.output} <br />
-              <strong>Explanation:</strong> {example.explanation}
-            </li>
+            <div
+              key={example._id}
+              className="mb-4 rounded-lg bg-gray-700 p-4 shadow-md"
+            >
+              <p className="text-white">
+                <strong>Input:</strong> {example.input}
+              </p>
+              <p className="text-white">
+                <strong>Output:</strong> {example.output}
+              </p>
+              {example.explanation && (
+                <p>
+                  <strong>Explanation:</strong> {example.explanation}
+                </p>
+              )}
+            </div>
           ))}
-        </ul>
-      </div>
-      <div className="mb-4">
-        <strong className="text-gray-800">Constraints:</strong>
-        <ul className="list-inside list-disc text-gray-600">
-          {problem.constraints.map((constraint, index) => (
-            <li key={index}>{constraint}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <strong className="text-gray-800">Test Cases:</strong>
-        <ul className="list-inside list-disc text-gray-600">
-          {problem.testCases.map((testCase) => (
-            <li key={testCase._id}>
-              <strong>Input:</strong> {testCase.input} <br />
-              <strong>Expected Output:</strong> {testCase.expectedOutput}
-            </li>
-          ))}
-        </ul>
+        </div>
+
+        {/* Constraints */}
+        <div className="mb-6">
+          <h3 className="mb-2 text-xl font-semibold text-white">
+            Constraints:
+          </h3>
+          <ul className="list-inside list-disc pl-4 text-gray-300">
+            {problem.constraints.map((constraint, index) => (
+              <li key={index}>{constraint}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

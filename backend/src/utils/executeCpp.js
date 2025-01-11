@@ -8,7 +8,7 @@ if (!fs.existsSync(outputPath)) {
   fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = (filepath, inputFilePath, timeLimit = 5000) => {
+const executeCpp = (filepath, inputFilePath, timeLimit = 10000) => {
   return new Promise((resolve, reject) => {
     if (!fs.existsSync(filepath)) {
       return reject(new Error(`File not found: ${filepath}`));

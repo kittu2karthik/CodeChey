@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+import Logo from "./Logo";
+
 import API_URI from "../config";
 
 function SignUp() {
@@ -39,50 +42,64 @@ function SignUp() {
   };
 
   return (
-    <div className="flex h-full items-center justify-center">
-      <h1 className="text-white">Sign Up</h1>
-      <form onSubmit={handleSignUp} className="text-black">
-        <div>
-          <label className="text-white">Name:</label>
+    <div className="flex h-svh w-full flex-col items-center bg-gradient-to-tr from-zinc-900 to-slate-900 pt-8 text-gray-200">
+      <Logo />
+      <h1 className="m-5 mb-8 text-center text-3xl font-bold">Sign Up</h1>
+
+      <form
+        onSubmit={handleSignUp}
+        className="mx-auto flex w-4/12 flex-col items-center justify-center rounded-lg border-4 border-solid p-8 shadow-lg"
+      >
+        <div className="mb-4 w-full">
+          <label className="mb-2 block text-left text-2xl">Name:</label>
           <input
             type="text"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className="w-full rounded-md border border-gray-300 p-2 text-purple-950 focus:text-purple-500 focus:outline-none focus:ring-2"
           />
         </div>
-        <div>
-          <label className="text-white">Email:</label>
+        <div className="mb-4 w-full">
+          <label className="mb-2 block text-left text-2xl">Email:</label>
           <input
             type="email"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full rounded-md border border-gray-300 p-2 text-purple-950 focus:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
-        <div>
-          <label className="text-white">Password:</label>
+        <div className="mb-4 w-full">
+          <label className="mb-2 block text-left text-2xl">Password:</label>
           <input
             type="password"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="w-full rounded-md border border-gray-300 p-2 text-purple-950 focus:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
-        <div>
-          <label className="text-white">Confirm Password:</label>
+        <div className="mb-4 w-full">
+          <label className="mb-2 block text-left text-2xl">
+            Confirm Password:
+          </label>
           <input
             type="password"
             name="passwordConfirm"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             required
+            className="w-full rounded-md border border-gray-300 p-2 text-purple-950 focus:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
           />
         </div>
-        <button type="submit" className="text-white">
+        <button
+          type="submit"
+          className="w-full rounded-md bg-purple-600 py-2 text-2xl font-semibold transition duration-200 hover:bg-purple-700 focus:text-purple-500"
+        >
           Sign Up
         </button>
       </form>

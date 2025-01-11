@@ -17,6 +17,7 @@ router.patch(
   authController.updatePassword
 );
 
+router.get("/:id", userController.getUserById);
 router.patch("/updateMe", authController.protect, userController.updateMe);
 router.delete("/deleteMe", authController.protect, userController.deleteMe);
 

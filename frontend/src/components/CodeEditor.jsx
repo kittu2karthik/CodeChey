@@ -4,26 +4,26 @@ import { javascript } from "@codemirror/lang-javascript";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
 import { python } from "@codemirror/lang-python";
-import { oneDark } from "@codemirror/theme-one-dark";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 
 function CodeEditor({ language, onChangeLanguage, value, onChangeValue }) {
   useEffect(() => {
     const defaultCode = {
       javascript: 'console.log("hello world");',
       python: 'print("hello world")',
-      cpp: `#include <iostream>
+      cpp: `#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-\tcout << "Hello World" << endl;
-\treturn 0;
+  cout << "Hello World" << endl;
+  return 0;
 }`,
       java: `import java.util.*;
 
 public class HelloWorld {
-\tpublic static void main(String[] args) {
-\t\tSystem.out.println("Hello World");
-\t}
+  public static void main(String[] args) {
+    System.out.println("Hello World");
+  }
 }`,
     };
 
@@ -54,11 +54,11 @@ public class HelloWorld {
   };
 
   return (
-    <div>
+    <div className="no-scrollbar overflow-scroll bg-gray-800 p-4 shadow-lg">
       <select
         value={language}
         onChange={(e) => onChangeLanguage(e.target.value)}
-        className="mb-4 rounded border border-gray-300 p-2 text-black"
+        className="mb-4 block w-full rounded border border-purple-700 bg-gray-900 p-2 text-gray-300"
       >
         <option value="javascript">JavaScript</option>
         <option value="python">Python</option>
@@ -67,10 +67,10 @@ public class HelloWorld {
       </select>
       <CodeMirror
         value={value}
-        className="h-[50vh] rounded border border-gray-300"
-        theme={oneDark}
+        theme={tokyoNight}
         extensions={[getLanguageExtension(language)]}
         onChange={onChange}
+        // style={{ height: "50vh" }}
       />
     </div>
   );

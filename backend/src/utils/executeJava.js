@@ -21,11 +21,16 @@ const executeJava = (filePath, inputFilePath, timeLimit) => {
         if (error.killed || error.signal === "SIGTERM") {
           return reject(
             new Error(
-              `Time Limit Exceeded: The script took too long to execute.`
+              "Time Limit Exceeded: The script took too long to execute."
             )
           );
         }
-        return reject(stderr || error.message || "Error executing Java code.");
+
+        console.error("Execution Error:", error.message);
+        console.error("Standard Error Output:", stderr);
+        return reject(
+          new Error(stderr || error.message || "Error executing C++ code.")
+        );
       }
 
       resolve(stdout.trim());

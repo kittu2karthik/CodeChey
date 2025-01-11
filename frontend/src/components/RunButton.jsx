@@ -11,20 +11,21 @@ function RunButton({ id, value, language, onOutput, input }) {
         language: language,
       });
 
+      console.log(response.data.output);
       onOutput(response.data.output);
 
       console.log("Compilation result:", response.data);
     } catch (error) {
       console.error("Error during code execution:", error);
 
-      onOutput("Time Limit Exceeded");
+      onOutput(error.response.data.stack);
     }
   };
 
   return (
     <button
       onClick={runCode}
-      className="rounded bg-blue-500 p-2 text-white hover:bg-blue-600"
+      className="rounded bg-purple-900 p-2 text-white hover:bg-purple-600"
     >
       Run
     </button>

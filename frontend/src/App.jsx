@@ -3,6 +3,7 @@ import HomePage from "./components/HomePage.jsx";
 import Login from "./components/Login.jsx";
 import SignUp from "./components/SignUp.jsx";
 import ProblemsPage from "./components/ProblemsPage.jsx";
+import SubmissonsPage from "./components/SubmissonsPage.jsx";
 import ProblemDetailsPage from "./components/ProblemDetailsPage.jsx";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/problems" element={<ProblemsPage />} />
         <Route path="/problem/:id" element={<ProblemDetailsPage />} />
+        <Route path="/submissons" element={<SubmissonsPage />} />
       </Routes>
     </Router>
   );
