@@ -1,16 +1,16 @@
-import Navbar from "./Navbar";
+import NavBar from "./NavBar";
 import Button from "./ButtonLink";
 import Logo from "./Logo";
 
 function Header() {
   return (
-    <Navbar>
+    <NavBar>
       <Logo />
       <div className="flex gap-8">
         <Button>login</Button>
         <Button>signup</Button>
       </div>
-    </Navbar>
+    </NavBar>
   );
 }
 
