@@ -18,9 +18,16 @@ function Login() {
     const loginData = { email, password };
 
     try {
-      const response = await axios.post(`${API_URI}/users/login`, loginData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${API_URI}/users/login`,
+        loginData,
+        //   , {
+        //   withCredentials: true,
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        // }
+      );
 
       if (response.status === 200) {
         console.log(response);

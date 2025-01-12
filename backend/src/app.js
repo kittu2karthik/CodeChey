@@ -12,7 +12,7 @@ const submissionsRouter = require("./routes/submissionsRoutes.js");
 const app = express();
 app.use(
   cors({
-    origin: "*",
+    origin: "http://13.60.239.21:3000/",
     credentials: true,
   })
 );
