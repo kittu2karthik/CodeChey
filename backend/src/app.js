@@ -10,12 +10,9 @@ const testcaseRouter = require("./routes/testcaseRoutes.js");
 const submissionsRouter = require("./routes/submissionsRoutes.js");
 
 const app = express();
-app.use(
-  cors({
-    origin: "http://13.50.119.26:3000/",
-    credentials: true,
-  })
-);
+
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json());
 
