@@ -16,18 +16,10 @@ function Login() {
     e.preventDefault();
 
     const loginData = { email, password };
+    console.log(loginData);
 
     try {
-      const response = await axios.post(
-        `${API_URI}/users/login`,
-        loginData,
-        //   , {
-        //   withCredentials: true,
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        // }
-      );
+      const response = await axios.post(`${API_URI}/users/login`, loginData);
 
       if (response.status === 200) {
         console.log(response);
